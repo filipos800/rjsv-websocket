@@ -57,3 +57,42 @@ to all connected clients:
 - frontend live reload
 - build process synchronization
 - integration with developer tools
+
+## Architecture Overview
+
+```txt
+        ┌───────────────────────┐
+        │  RJSV::CLI::States    │
+        │  (watch_state)        │
+        └─────────┬─────────────┘
+                  │ tracks files
+                  ▼
+        ┌───────────────────────┐
+        │  File System Events   │
+        │  (added, modified,    │
+        │   removed)            │
+        └─────────┬─────────────┘
+                  │ trigger
+                  ▼
+        ┌─────────────────────────────┐
+        │ RJSV::Plugins::Websocket    │
+        │           States            │
+        │ (create_server, send_update)│
+        └─────────┬───────────┬───────┘
+                  │           │
+                  │ send      │ server lifecycle
+                  ▼           ▼
+        ┌─────────────────────────────┐
+        │  WebSocket Server           │
+        │  (ws://localhost:7071)      │
+        └─────────────────────────────┘
+                  │
+                  │ notification "update"
+                  ▼
+        ┌─────────────────────────────┐
+        │ Connected Clients / Tools   │
+        │ (live reload, build sync)   │
+        └─────────────────────────────┘
+```
+
+This diagram shows how the CLI, WebSocket plugin, server, and connected clients interact.
