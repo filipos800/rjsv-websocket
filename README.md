@@ -15,6 +15,10 @@ The plugin requires the `em-websocket` Ruby gem
 gem install em-websocket
 ```
 
+**Recommended installation**: place the plugin in your `$HOME/.rjsv/plugins` directory.
+
+For more details, see the official documentation: [Plugins](https://filipvrba.github.io/ruby-js/#0-plugins)
+
 ## Usage
 
 The plugin is enabled by adding the `websocket` argument
